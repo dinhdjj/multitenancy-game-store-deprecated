@@ -1,0 +1,4 @@
+{
+    "resources/**": ["prettier --write", "eslint --fix"],
+    "*.php": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"
+}

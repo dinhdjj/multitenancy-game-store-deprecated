@@ -1,0 +1,15 @@
+# Always follow this structure: Extensions -> Folders -> Files
+
+# Extensions
+*.*
+!*.js
+!*.jsx
+!*.ts
+!*.tsx
+!*.vue
+
+# Folders
+/*
+!/resources
+
+# Files
