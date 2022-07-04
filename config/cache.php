@@ -43,10 +43,6 @@ return [
             'connection' => 'cache',
             'lock_connection' => 'default',
         ],
-
-        'octane' => [
-            'driver' => 'octane',
-        ],
     ],
 
     /*
