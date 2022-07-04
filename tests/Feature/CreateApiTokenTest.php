@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 
-test('api tokens can be created', function () {
+test('api tokens can be created', function (): void {
     if (Features::hasTeamFeatures()) {
         $this->actingAs($user = User::factory()->withPersonalTeam()->create());
     } else {
@@ -13,20 +15,19 @@ test('api tokens can be created', function () {
     }
 
     Livewire::test(ApiTokenManager::class)
-                ->set(['createApiTokenForm' => [
-                    'name' => 'Test Token',
-                    'permissions' => [
-                        'read',
-                        'update',
-                    ],
-                ]])
-                ->call('createApiToken');
+        ->set(['createApiTokenForm' => [
+            'name' => 'Test Token',
+            'permissions' => [
+                'read',
+                'update',
+            ],
+        ]])
+        ->call('createApiToken')
+    ;
 
     expect($user->fresh()->tokens)->toHaveCount(1);
     expect($user->fresh()->tokens->first())
         ->name->toEqual('Test Token')
         ->can('read')->toBeTrue()
         ->can('delete')->toBeFalse();
-})->skip(function () {
-    return ! Features::hasApiFeatures();
-}, 'API support is not enabled.');
+})->skip(fn () => !Features::hasApiFeatures(), 'API support is not enabled.');
