@@ -1,11 +1,7 @@
 <?php
 
-declare(strict_types=1);
+test('example', function () {
+    $response = $this->get('/');
 
-use function Pest\Laravel\get;
-
-test('the application returns a successful response', function (): void {
-    get('/')
-        ->assertStatus(200)
-    ;
+    $response->assertStatus(200);
 });
