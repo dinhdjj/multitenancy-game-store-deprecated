@@ -102,7 +102,7 @@ class TenancyServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             Event::listen(CommandStarting::class, function (CommandStarting $event): void {
-                if (\in_array($event->command, ['migrate:fresh', 'migration:refresh', 'migrate:reset'], true)) {
+                if (\in_array($event->command, ['migrate:fresh', 'migrate:refresh', 'migrate:reset'], true)) {
                     rescue(function (): void {
                         Tenant::all()->each->delete();
                     });
