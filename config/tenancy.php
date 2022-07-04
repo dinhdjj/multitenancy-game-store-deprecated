@@ -13,10 +13,7 @@ return [
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
-    'central_domains' => [
-        '127.0.0.1',
-        'localhost',
-    ],
+    'central_domains' => array_filter(preg_split('/[ ,|]{1,}/', env('TENANCY_CENTRAL_DOMAINS', 'localhost'))),
 
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.
@@ -48,7 +45,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'tenant',
+        'prefix' => env('TENANCY_DATABASE_PREFIX', '_tenant_'),
         'suffix' => '',
 
         /**
@@ -85,7 +82,7 @@ return [
      * You can clear cache selectively by specifying the tag.
      */
     'cache' => [
-        'tag_base' => 'tenant', // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
+        'tag_base' => env('TENANCY_CACHE_TAG_PREFIX', '_tenant_'), // This tag_base, followed by the tenant_id, will form a tag that will be applied on each cache call.
     ],
 
     /**
@@ -96,7 +93,7 @@ return [
         /**
          * Each disk listed in the 'disks' array will be suffixed by the suffix_base, followed by the tenant_id.
          */
-        'suffix_base' => 'tenant',
+        'suffix_base' => env('TENANCY_FILESYSTEM_PREFIX', '_tenant_'),
         'disks' => [
             'local',
             'public',
@@ -145,7 +142,7 @@ return [
      * either using the Redis facade or by injecting it as a dependency.
      */
     'redis' => [
-        'prefix_base' => 'tenant', // Each key in Redis will be prepended by this prefix_base, followed by the tenant id.
+        'prefix_base' => env('TENANCY_REDIS_PREFIX', '_tenant_'), // Each key in Redis will be prepended by this prefix_base, followed by the tenant id.
         'prefixed_connections' => [ // Redis connections whose keys are prefixed, to separate one tenant's keys from another.
             // 'default',
         ],
