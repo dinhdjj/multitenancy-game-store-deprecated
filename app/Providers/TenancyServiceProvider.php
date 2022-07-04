@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Tenant;
+use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -97,6 +99,16 @@ class TenancyServiceProvider extends ServiceProvider
         $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
+
+        if ($this->app->runningInConsole()) {
+            Event::listen(CommandStarting::class, function (CommandStarting $event): void {
+                if (\in_array($event->command, ['migrate:fresh', 'migration:refresh', 'migrate:reset'], true)) {
+                    rescue(function (): void {
+                        Tenant::all()->each->delete();
+                    });
+                }
+            });
+        }
     }
 
     protected function bootEvents(): void
