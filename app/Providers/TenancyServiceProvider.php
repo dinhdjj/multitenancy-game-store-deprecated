@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Actions\TenantCreateFrameworkDirectories;
+use App\Actions\TenantDeleteRelatedDirectories;
 use App\Models\Tenant;
 use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Support\Facades\Event;
@@ -34,13 +36,16 @@ class TenancyServiceProvider extends ServiceProvider
                     // Your own jobs to prepare the tenant.
                     // Provision API keys, create S3 buckets, anything you want!
                 ])->send(fn (Events\TenantCreated $event) => $event->tenant)->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
+                TenantCreateFrameworkDirectories::class,
             ],
             Events\SavingTenant::class => [],
             Events\TenantSaved::class => [],
             Events\UpdatingTenant::class => [],
             Events\TenantUpdated::class => [],
-            Events\DeletingTenant::class => [],
+            Events\DeletingTenant::class => [
+            ],
             Events\TenantDeleted::class => [
+                TenantDeleteRelatedDirectories::class,
                 JobPipeline::make([
                     Jobs\DeleteDatabase::class,
                 ])->send(fn (Events\TenantDeleted $event) => $event->tenant)->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
