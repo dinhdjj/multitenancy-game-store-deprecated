@@ -55,6 +55,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         foreach ($this->centralDomains() as $domain) {
             Route::prefix('api')
+                ->name('api.')
                 ->domain($domain)
                 ->middleware('api')
                 ->namespace($this->namespace)
