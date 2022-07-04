@@ -18,12 +18,13 @@ This document will help you deploy this project to real servers.
 -   **Tokenizer PHP Extension**
 -   **XML PHP Extension**
 -   **Openswoole PHP Extension**
+-   **Redis PHP Extension**
 
 ```shell
 # Example
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
-sudo apt install php8.1 php8.1-cli php8.1-common php8.1-mysql php8.1-cgi php8.1-curl php8.1-zip php8.1-mbstring php8.1-gd php8.1-xml php8.1-xsl php8.1-dev php8.1-bz2  php8.1-sqlite php8.1-sqlite3 php8.1-memcached php8.1-fpm php8.1-xdebug php8.1-bcmath php8.1-intl php8.1-openswoole
+sudo apt install php8.1 php8.1-cli php8.1-common php8.1-mysql php8.1-cgi php8.1-curl php8.1-zip php8.1-mbstring php8.1-gd php8.1-xml php8.1-xsl php8.1-dev php8.1-bz2  php8.1-sqlite php8.1-sqlite3 php8.1-memcached php8.1-fpm php8.1-xdebug php8.1-bcmath php8.1-intl php8.1-openswoole php8.1-redis
 ```
 
 ### `php artisan queue:work` command
