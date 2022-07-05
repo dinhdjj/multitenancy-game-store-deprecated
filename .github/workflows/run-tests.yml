@@ -43,6 +43,19 @@ jobs:
       - name: Setup directory permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: Migrate database
+        env:
+          CENTRAL_MYSQL_HOST: 127.0.0.1
+          CENTRAL_MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+          CENTRAL_MYSQL_DATABASE: 'test'
+          CENTRAL_MYSQL_USERNAME: 'root'
+          CENTRAL_MYSQL_PASSWORD: ''
+          TENANT_MYSQL_HOST: 127.0.0.1
+          TENANT_MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+          TENANT_MYSQL_USERNAME: 'root'
+          TENANT_MYSQL_PASSWORD: ''
+        run: php artisan migrate:refresh --force
+
       - name: Execute tests
         env:
           CENTRAL_MYSQL_HOST: 127.0.0.1
